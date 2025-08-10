@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv';
 import db from './models/index.js'
 import cors from 'cors';
-import { editarJogador, registrarJogador, verJogadores } from './controller/authController.js';
+import { editarJogador, excluirJogador, registrarJogador, verJogadores } from './controller/authController.js';
 
 dotenv.config();
 
@@ -22,6 +22,7 @@ app.use(express.json())
 app.post('/registrarJogador', registrarJogador)
 app.get('/jogadores', verJogadores)
 app.put('/editarJogador', editarJogador)
+app.delete('/removerJogador/:id', excluirJogador)
 
 db.sequelize.sync()
   .then(() => {

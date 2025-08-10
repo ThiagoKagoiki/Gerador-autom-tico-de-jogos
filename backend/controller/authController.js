@@ -63,3 +63,20 @@ export const editarJogador = async (req, res) => {
         });
     }
 }
+
+export const excluirJogador = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        await db.Jogador.destroy({ where: { id } })
+
+        res.status(201).json({
+            mensagem: 'Jogador excluido!'
+        })
+    } catch (err) {
+        res.status(400).json({
+            erro: 'Erro ao deletar Jogador',
+            detalhes: err.message
+        });
+    }
+}
