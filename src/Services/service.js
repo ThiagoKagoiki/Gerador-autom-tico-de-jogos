@@ -10,3 +10,4 @@ const API = axios.create({
 
 export const registrarJogador = (dados) => API.post('/registrarJogador', dados)
 export const verJogadores = () => API.get('/jogadores')
+export const editarJogador = (dados) => API.put('/editarJogador', dados)
