@@ -2,7 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv';
 import db from './models/index.js'
 import cors from 'cors';
-import { registrarJogador } from './controller/authController.js';
+import { registrarJogador, verJogadores } from './controller/authController.js';
 
 dotenv.config();
 
@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 const app = express()
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost:5174',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
   credentials: true
@@ -20,6 +20,7 @@ app.use(cors({
 app.use(express.json())
 
 app.post('/registrarJogador', registrarJogador)
+app.get('/jogadores', verJogadores)
 
 db.sequelize.sync()
   .then(() => {

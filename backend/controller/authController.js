@@ -24,3 +24,16 @@ export const registrarJogador = async(req, res) => {
         })
     }
 }
+
+export const verJogadores = async(req, res) => {
+    try {
+        const jogadores = await db.Jogador.findAll({
+            attributes: ['id', 'nome', 'pontos']
+        });
+
+        res.status(200).json(jogadores);
+    } catch (err) {
+        console.error("Erro ao listar jogadores:", err);
+        res.status(500).json({ mensagem: "Erro ao listar jogadores" });
+    }
+}
