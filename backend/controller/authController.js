@@ -30,7 +30,7 @@ export const verJogadores = async (req, res) => {
     try {
         const jogadores = await db.Jogador.findAll({
             attributes: ['id', 'nome', 'pontos'],
-            order: [['id', 'ASC']]
+            order: [['pontos', 'DESC']]
         });
 
         res.status(200).json(jogadores);

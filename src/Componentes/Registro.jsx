@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { editarJogador, registrarJogador } from "../Services/service";
+import { deletarJogador, editarJogador, registrarJogador } from "../Services/service";
 import axios from "axios";
 import { MenuJogadores } from "./MenuJogadores";
 
@@ -49,13 +49,23 @@ export const Registro = () => {
         e.preventDefault();
         const dados = { pontos };
         try {
-            await editarJogador({ id: jogadorEditando.id, ...dados }); 
+            await editarJogador({ id: jogadorEditando.id, ...dados });
             setPontos('');
             setJogadorEditando(null);
             carregarJogadores();
         } catch (error) {
             console.error("Erro ao editar jogador:", error.response ? error.response.data : error.message);
             alert("Erro ao editar jogador. Verifique os dados e tente novamente.");
+        }
+    }
+
+    const removerJogador = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3000/removerJogador/${id}`);
+            setJogadores(prev => prev.filter(jogador => jogador.id !== id));
+        } catch (error) {
+            alert("Erro ao excluir jogador");
+            console.error(error);
         }
     }
 
@@ -85,10 +95,10 @@ export const Registro = () => {
                                 <td>{jogador.nome}</td>
                                 <td>{jogadorEditando && jogadorEditando.id === jogador.id ? (
                                     <form onSubmit={handleSubmitEdit}>
-                                        <input 
-                                            type="number" 
-                                            value={pontos} 
-                                            onChange={e => setPontos(e.target.value)} 
+                                        <input
+                                            type="number"
+                                            value={pontos}
+                                            onChange={e => setPontos(e.target.value)}
                                         />
                                         <button type="submit">Salvar</button>
                                     </form>
@@ -96,7 +106,12 @@ export const Registro = () => {
                                     jogador.pontos
                                 )}</td>
                                 <td>
-                                    <button onClick={() => handleEditar(jogador)}>Editar</button>
+                                    {!jogadorEditando && (
+                                        <>
+                                            <button onClick={() => handleEditar(jogador)}>Editar</button>{' '}
+                                            <button onClick={() => removerJogador(jogador.id)}>Excluir</button>
+                                        </>
+                                    )}
                                 </td>
                             </tr>
                         ))}
