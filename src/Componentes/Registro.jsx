@@ -117,7 +117,7 @@ export const Registro = () => {
                         ))}
                     </tbody>
                 </table>
-                {/* <MenuJogadores jogadores={jogadores} nome={nomeSelecionado} setNome={setNomeSelecionado}/> */}
+                <MenuJogadores jogadores={jogadores} nome={nomeSelecionado} setNome={setNomeSelecionado}/>
             </div>
         </>
     )
