@@ -3,59 +3,98 @@ import { MenuJogadores } from "./MenuJogadores";
 import axios from "axios";
 
 export const Gerador = () => {
-
-  const [totalJogadores, setTotalJogadores] = useState('');
-  const [jogadoresPorGrupo, setJogadoresPorGrupo] = useState('');
-  const [jogadores, setJogadores] = useState([]);
-  const [nome, setNome] = useState('')
+    const [jogadores, setJogadores] = useState([]);
+    const [nomeSelecionado, setNomeSelecionado] = useState("");
+    const [participantes, setParticipantes] = useState([]);
+    const [duplas, setDuplas] = useState([]);
 
     const carregarJogadores = () => {
-        axios.get("http://localhost:3000/jogadores")
-            .then(res => setJogadores(res.data))
-            .catch(err => console.error("Erro ao buscar jogadores:", err));
-    }
+        axios
+            .get("http://localhost:3000/jogadores")
+            .then((res) => setJogadores(res.data))
+            .catch((err) => console.error("Erro ao buscar jogadores:", err));
+    };
 
-    const handleSubmit = () => {
+    const adicionarParticipante = () => {
+        if (!nomeSelecionado) return;
 
-    }
+        if (participantes.includes(nomeSelecionado)) {
+            alert("Esse jogador já está na lista!");
+            return;
+        }
+
+        setParticipantes([...participantes, nomeSelecionado]);
+    };
+
+    let todasDuplas = [];
+    const gerarDuplas = () => {
+
+        if(todasDuplas.length < 4){
+            alert("Precisa de no minimo 4 jogadores!")
+            return
+        }
+
+        for (let i = 0; i < participantes.length; i++) {
+            for (let j = i + 1; j < participantes.length; j++) {
+                todasDuplas.push([participantes[i], participantes[j]]);
+            }
+        }
+
+        setDuplas(todasDuplas);
+    };
+
+    const removerParticipante = (nome) => {
+        setParticipantes(participantes.filter((p) => p !== nome));
+    };
 
     useEffect(() => {
-        carregarJogadores()
+        carregarJogadores();
     }, [carregarJogadores]);
+
+    
+
     return (
-        <>
-            <div>
-                <form onSubmit={handleSubmit}>
+        <div>
+            <h3>Escolha um jogador:</h3>
+            <MenuJogadores
+                jogadores={jogadores}
+                nome={nomeSelecionado}
+                setNome={setNomeSelecionado}
+            />
 
-                    <label htmlFor="totalJogadores">
-                        <h3>Quantos jogadores:</h3>
-                    </label>
-                    <input
-                        type="number"
-                        placeholder="Digite o total de jogadores"
-                    />
+            <button onClick={adicionarParticipante} style={{ marginTop: "10px" }}>
+                Adicionar à lista
+            </button>
 
+            <h3 style={{ marginTop: "20px" }}>Participantes:</h3>
+            <ul>
+                {participantes.map((jogador, index) => (
+                    <li key={index}>
+                        {jogador}
+                        <button
+                            onClick={() => removerParticipante(jogador)}
+                            style={{ marginLeft: "10px" }}
+                        >
+                            Remover
+                        </button>
+                    </li>
+                ))}
+            </ul>
 
-                    <label htmlFor="jogadoresPorGrupo">
-                        <h3>Quantos jogadores por grupo:</h3>
-                    </label>
-                    <input
-                        type="number"
-                        placeholder="Digite a quantidade por grupo"
-                    />
+            <button onClick={gerarDuplas}>Gerar duplas</button>
 
-
-                    <label htmlFor="jogadoresSelecionados">
-                        <h3>Jogadores cadastrados:</h3>
-                    </label>
-                    <MenuJogadores jogadores={jogadores} nome={nome} setNome={setNome}/>
-
-                    <br />
-
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
-
-        </>
-    )
-}
+            {duplas.length > 0 && (
+                <>
+                    <h3>Duplas geradas:</h3>
+                    <ul>
+                        {duplas.map((dupla, index) => (
+                            <li key={index}>
+                                {index + 1} - {dupla[0]} e {dupla[1]}
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+        </div>
+    );
+};
