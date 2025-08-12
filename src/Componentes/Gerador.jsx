@@ -28,17 +28,18 @@ export const Gerador = () => {
 
     let todasDuplas = [];
     const gerarDuplas = () => {
+        for (let i = 0; i < participantes.length; i++) {
+            for (let j = i + 1; j < participantes.length; j++) {
+                todasDuplas.push([participantes[i], participantes[j]]);
+            }
+        }
 
         if(todasDuplas.length < 4){
             alert("Precisa de no minimo 4 jogadores!")
             return
         }
 
-        for (let i = 0; i < participantes.length; i++) {
-            for (let j = i + 1; j < participantes.length; j++) {
-                todasDuplas.push([participantes[i], participantes[j]]);
-            }
-        }
+
 
         setDuplas(todasDuplas);
     };
