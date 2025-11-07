@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { deletarJogador, editarJogador, registrarJogador } from "../Services/service";
+import { deletarJogador, editarJogador, registrarJogador, verJogadores } from "../Services/service";
 import axios from "axios";
 import { MenuJogadores } from "./MenuJogadores";
 
@@ -12,7 +12,7 @@ export const Registro = () => {
     const [jogadorEditando, setJogadorEditando] = useState(null)
 
     const carregarJogadores = () => {
-        axios.get("http://localhost:3000/jogadores")
+        verJogadores()
             .then(res => setJogadores(res.data))
             .catch(err => console.error("Erro ao buscar jogadores:", err));
     }
@@ -45,6 +45,7 @@ export const Registro = () => {
         setJogadorEditando(jogador);
         setPontos(jogador.pontos);
     }
+
     const handleSubmitEdit = async (e) => {
         e.preventDefault();
         const dados = { pontos };
@@ -61,8 +62,8 @@ export const Registro = () => {
 
     const removerJogador = async (id) => {
         try {
-            await axios.delete(`http://localhost:3000/removerJogador/${id}`);
-            setJogadores(prev => prev.filter(jogador => jogador.id !== id));
+            await deletarJogador(id);
+            carregarJogadores();
         } catch (error) {
             alert("Erro ao excluir jogador");
             console.error(error);
