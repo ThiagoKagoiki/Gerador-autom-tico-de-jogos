@@ -1,0 +1,99 @@
+body {
+    background: #001f3f;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Títulos */
+.titulo {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.subtitulo {
+    margin-top: 40px;
+}
+
+/* Containers */
+.registro-container,
+.gerador-container {
+    background: #ffffff15;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Inputs / Buttons */
+input,
+select {
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+    margin-right: 10px;
+}
+
+.btn {
+    background: #0074D9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background: #005fa3;
+}
+
+.excluir,
+.excluir-sm {
+    background: #ff4136;
+}
+
+.excluir-sm {
+    margin-left: 10px;
+}
+
+.editar {
+    background: #ffdc00;
+    color: black;
+}
+
+.salvar {
+    background: #2ecc40;
+}
+
+/* Tabela */
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.tabela th,
+.tabela td {
+    padding: 8px;
+    border-bottom: 1px solid #ffffff40;
+}
+
+/* Listas */
+.lista-participantes li,
+.lista-jogos li {
+    margin: 5px 0;
+}
+
+/* Grupos */
+.grupos-container {
+    margin-top: 20px;
+}
+
+.grupo-card {
+    background: #ffffff20;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}

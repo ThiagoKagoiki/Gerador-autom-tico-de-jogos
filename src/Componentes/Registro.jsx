@@ -71,56 +71,51 @@ export const Registro = () => {
     }
 
     return (
-        <>
-            <div>
-                <form onSubmit={handleSubmit}>
-                    <h2>Registrar jogador</h2>
-                    <label htmlFor="">Nome do jogador:</label>
-                    <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
-                    <button type="submit">Registrar</button>
-                </form>
+        <div className="registro-container">
+            <form onSubmit={handleSubmit} className="registro-form">
+                <h2>Registrar Jogador</h2>
+                <label>Nome do jogador:</label>
+                <input type="text" placeholder="Nome" value={nome} onChange={e => setNome(e.target.value)} />
+                <button type="submit" className="btn">Registrar</button>
+            </form>
 
-                <h2>Lista de Jogadores</h2>
-                <table className="tabela">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>Pontos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {jogadores.map(jogador => (
-                            <tr key={jogador.id}>
-                                <td>{jogador.id}</td>
-                                <td>{jogador.nome}</td>
-                                <td>{jogadorEditando && jogadorEditando.id === jogador.id ? (
-                                    <form onSubmit={handleSubmitEdit}>
-                                        <input
-                                            type="number"
-                                            value={pontos}
-                                            onChange={e => setPontos(e.target.value)}
-                                        />
-                                        <button type="submit">Salvar</button>
+            <h2>Lista de Jogadores</h2>
+            <table className="tabela">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Pontos</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {jogadores.map(jogador => (
+                        <tr key={jogador.id}>
+                            <td>{jogador.id}</td>
+                            <td>{jogador.nome}</td>
+                            <td>
+                                {jogadorEditando && jogadorEditando.id === jogador.id ? (
+                                    <form onSubmit={handleSubmitEdit} className="edit-pontos">
+                                        <input type="number" value={pontos} onChange={e => setPontos(e.target.value)} />
+                                        <button type="submit" className="btn salvar">Salvar</button>
                                     </form>
-                                ) : (
-                                    jogador.pontos
-                                )}</td>
-                                <td>
-                                    {!jogadorEditando && (
-                                        <>
-                                            <button onClick={() => handleEditar(jogador)}>Editar</button>{' '}
-                                            <button onClick={() => removerJogador(jogador.id)}>Excluir</button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                {/* <MenuJogadores jogadores={jogadores} nome={nomeSelecionado} setNome={setNomeSelecionado}/> */}
-            </div>
-        </>
+                                ) : jogador.pontos}
+                            </td>
+                            <td>
+                                {!jogadorEditando && (
+                                    <>
+                                        <button onClick={() => handleEditar(jogador)} className="btn editar">Editar</button>
+                                        <button onClick={() => removerJogador(jogador.id)} className="btn excluir">Excluir</button>
+                                    </>
+                                )}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     )
+
 }
 
